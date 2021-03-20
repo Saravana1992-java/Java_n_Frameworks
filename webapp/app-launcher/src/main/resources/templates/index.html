@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general_fragments :: head"></head>
+
+<body>
+	<div th:replace="fragments/general_fragments :: preloader"></div>
+
+	<div th:replace="fragments/general_fragments :: subHeader"></div>
+
+	<header th:replace="fragments/general_fragments :: header"> </header>
+
+	<div th:replace="fragments/general_fragments :: mainBanner-HeaderText">
+	</div>
+
+	<!-- Actual content goes here -->
+
+	<footer th:replace="fragments/general_fragments :: footer"> </footer>
+
+	<div th:replace="fragments/general_fragments :: subFooter"></div>
+</body>
+</html>

@@ -1,0 +1,231 @@
+package rules
+
+import com.learn.free.studios.gbs.model.Orfil;
+import com.learn.free.studios.gbs.model.Question;
+import com.learn.free.studios.gbs.model.Answer;
+import java.util.ArrayList;  
+import java.util.HashMap;  
+import java.util.List;  
+import java.util.Map;  
+import java.util.Map.Entry; 
+import org.apache.logging.log4j.Logger;
+import com.learn.free.studios.commons.GeneralConstants;
+global java.util.ArrayList feStates;
+global java.util.ArrayList typeOfIncome;
+global java.util.ArrayList status;
+
+rule "Sourcing Geo Limit"
+salience 1
+no-loop
+lock-on-active true
+	when 
+		orfil: Orfil(state=="TamilNadu", !status.contains(questionnaire.get(1).answer.answer))
+	then
+		if("TamilNadu".equalsIgnoreCase(orfil.getState()) && orfil.getDistance()<=50 && orfil.getDistance()!=0){
+			orfil: updateAnswer(1, orfil, status.get(0).toString(), "");
+		} else if(feStates.contains(orfil.getState()) && orfil.getDistance()<=40 && orfil.getDistance()!=0){
+			orfil: updateAnswer(1, orfil, status.get(0).toString(), "");
+		}else{
+			orfil: updateAnswer(1, orfil, status.get(1).toString(), "");
+		}
+		update(orfil)
+	end
+	
+rule "Loan amount sanctioned as per credit program"
+salience 2
+no-loop
+lock-on-active true
+	when 
+		orfil: Orfil(!status.contains(questionnaire.get(2).answer.answer))
+	then
+		if("No Income".equalsIgnoreCase(orfil.getIncomeNoIncome()) && orfil.getLoanAmt()<=100000){
+			orfil: updateAnswer(2, orfil, status.get(0).toString(), "");
+		}else if("Income".equalsIgnoreCase(orfil.getIncomeNoIncome()) && orfil.getLoanAmt()>=20000 && orfil.getLoanAmt()<=150000){
+			orfil: updateAnswer(2, orfil, status.get(0).toString(), "");
+		}else{
+			orfil: updateAnswer(2, orfil, status.get(1).toString(), "");
+		}
+		update(orfil)
+	end
+	
+rule "Tenure of loan is fixed as per the loan amount"
+salience 3
+no-loop
+lock-on-active true
+	when 
+		orfil: Orfil(typeOfIncome.contains(IncomeNoIncome), !status.contains(questionnaire.get(3).answer.answer))
+	then
+		if(orfil.getLoanAmt()<=75000 && orfil.getTenure()<=30 && orfil.getTenure()>=12){
+			orfil: updateAnswer(3, orfil, status.get(0).toString(), "");
+		}else if(orfil.getLoanAmt()>75000 && orfil.getTenure()<=36 && orfil.getTenure()>=12){
+			orfil: updateAnswer(3, orfil, status.get(0).toString(), "");
+		}else if(orfil.getLoanAmt()>=100000 && orfil.getTenure()<=48 && orfil.getTenure()>=12){
+			orfil: updateAnswer(3, orfil, status.get(0).toString(), "");
+		}else{
+			orfil: updateAnswer(3, orfil, status.get(1).toString(), "");
+		}
+		
+		update(orfil)
+	end	
+	
+rule "EMI"
+salience 4
+no-loop
+lock-on-active true
+	when 
+		orfil: Orfil(!status.contains(questionnaire.get(4).answer.answer))
+	then
+		if("Income".equalsIgnoreCase(orfil.getIncomeNoIncome()) && orfil.getEmi()<=7000){
+			orfil: updateAnswer(4, orfil, status.get(0).toString(), "");
+		} else if("No Income".equalsIgnoreCase(orfil.getIncomeNoIncome()) && orfil.getEmi()<=6000){
+			orfil: updateAnswer(4, orfil, status.get(0).toString(), "");
+		}else{
+			orfil: updateAnswer(4, orfil, status.get(1).toString(), "");
+		}
+		
+		update(orfil)
+	end		
+	
+rule "Income to Loan EMI ratio"
+salience 5
+no-loop
+lock-on-active true
+	when 
+		orfil: Orfil( !status.contains(questionnaire.get(6).answer.answer))
+	then
+		if(typeOfIncome.contains(orfil.getIncomeNoIncome()) && orfil.getEmi()<=(orfil.getIncomeLevel()/3)){
+			orfil: updateAnswer(6, orfil, status.get(0).toString(), "");
+		}else{
+			orfil: updateAnswer(6, orfil, status.get(1).toString(), "");
+		}
+		update(orfil)
+	end	
+	
+rule "Is applicant more than 18 years"
+salience 6
+no-loop
+lock-on-active true
+	when 
+		orfil: Orfil(!status.contains(questionnaire.get(7).answer.answer))
+	then
+		if(orfil.getAge()>=18 && orfil.getAge()<=21 
+			&& "Yes".equalsIgnoreCase(orfil.getGuarantorAvail())){
+			orfil: updateAnswer(7, orfil, status.get(0).toString(), "");
+		}else if(orfil.getAge()>21 && orfil.getAge()<=65){
+			orfil: updateAnswer(7, orfil, status.get(0).toString(), "");
+		}else{
+			orfil: updateAnswer(7, orfil, status.get(1).toString(), "");
+		}
+		
+		update(orfil)
+	end	
+	
+rule "CIBIL reports are enclosed and the CIBIL score is more than 600"
+salience 7
+no-loop
+lock-on-active true
+	when 
+		orfil: Orfil(!status.contains(questionnaire.get(14).answer.answer))
+	then
+		if(orfil.getCrifScore()>600){
+			orfil: updateAnswer(14, orfil, status.get(0).toString(), "");
+		}else{
+			orfil: updateAnswer(14, orfil, status.get(1).toString(), "");
+		}
+		
+		update(orfil)
+	end	
+	
+rule "LTV MATRIX & PROGRAM CONCEPT"
+salience 8
+no-loop
+lock-on-active true
+	when 
+		orfil: Orfil(!status.contains(questionnaire.get(17).answer.answer))
+	then
+		if("OWNED".equalsIgnoreCase(orfil.getFiResidenceOwnership()) 
+			&& 600 <= orfil.getCrifScore()
+			&& 65000 >= orfil.getLoanAmt() && 6000 >= orfil.getEmi() 
+			&& "A".equalsIgnoreCase(orfil.getCategoryVehicle()) 
+			&& "Auto".equalsIgnoreCase(orfil.getApprovalType())){
+			
+			orfil: updateAnswer(17, orfil, status.get(0).toString(), "");
+			
+		}else if("OWNED".equalsIgnoreCase(orfil.getFiResidenceOwnership()) 
+			&& 600 <= orfil.getCrifScore()
+			&& 65000 >= orfil.getLoanAmt() && 5000 >= orfil.getEmi() 
+			&& "A".equalsIgnoreCase(orfil.getCategoryVehicle()) 
+			&& "Auto".equalsIgnoreCase(orfil.getApprovalType())){
+			
+			orfil: updateAnswer(17, orfil, status.get(0).toString(), "");
+			
+		}else if("OWNED".equalsIgnoreCase(orfil.getFiResidenceOwnership()) 
+			&& 600 <= orfil.getCrifScore()
+			&& 65000 <= orfil.getLoanAmt() && 100000 >= orfil.getLoanAmt() && 7000 >= orfil.getEmi() 
+			&& "A".equalsIgnoreCase(orfil.getCategoryVehicle()) 
+			&& "Auto".equalsIgnoreCase(orfil.getApprovalType())){
+			
+			orfil: updateAnswer(17, orfil, status.get(0).toString(), "");
+			
+		}else if("OWNED".equalsIgnoreCase(orfil.getFiResidenceOwnership()) 
+			&& 600 <= orfil.getCrifScore()
+			&& 65000 <= orfil.getLoanAmt() && 100000 >= orfil.getLoanAmt() && 6000 >= orfil.getEmi() 
+			&& "A".equalsIgnoreCase(orfil.getCategoryVehicle()) 
+			&& "Auto".equalsIgnoreCase(orfil.getApprovalType())){
+			
+			orfil: updateAnswer(17, orfil, status.get(0).toString(), "");
+			
+		}else if(!"OWNED".equalsIgnoreCase(orfil.getFiResidenceOwnership()) 
+			&& 600 <= orfil.getCrifScore()
+			&& 65000 >= orfil.getLoanAmt() && 6000 >= orfil.getEmi()
+			&& "A".equalsIgnoreCase(orfil.getCategoryVehicle()) 
+			&& !"Auto".equalsIgnoreCase(orfil.getApprovalType())){
+			
+			orfil: updateAnswer(17, orfil, status.get(0).toString(), "");
+			
+		}else if(!"OWNED".equalsIgnoreCase(orfil.getFiResidenceOwnership()) 
+			&& 600 <= orfil.getCrifScore()
+			&& 65000 >= orfil.getLoanAmt() && 5000 >= orfil.getEmi()
+			&& "A".equalsIgnoreCase(orfil.getCategoryVehicle()) 
+			&& !"Auto".equalsIgnoreCase(orfil.getApprovalType())){
+			
+			orfil: updateAnswer(17, orfil, status.get(0).toString(), "");
+			
+		}else if(!"OWNED".equalsIgnoreCase(orfil.getFiResidenceOwnership()) 
+			&& 600 <= orfil.getCrifScore()
+			&& 65000 <= orfil.getLoanAmt() && 100000 >= orfil.getLoanAmt() && 7000 >= orfil.getEmi() 
+			&& "A".equalsIgnoreCase(orfil.getCategoryVehicle()) 
+			&& !"Auto".equalsIgnoreCase(orfil.getApprovalType())){
+			
+			orfil: updateAnswer(17, orfil, status.get(0).toString(), "");
+			
+		}else if(!"OWNED".equalsIgnoreCase(orfil.getFiResidenceOwnership()) 
+			&& 600 <= orfil.getCrifScore()
+			&& 65000 <= orfil.getLoanAmt() && 100000 >= orfil.getLoanAmt() && 6000 >= orfil.getEmi() 
+			&& "A".equalsIgnoreCase(orfil.getCategoryVehicle()) 
+			&& !"Auto".equalsIgnoreCase(orfil.getApprovalType())){
+			
+			orfil: updateAnswer(17, orfil, status.get(0).toString(), "");
+			
+		}else {
+			orfil: updateAnswer(17, orfil, status.get(1).toString(), "");
+		}
+		
+		update(orfil)
+	end	
+		
+function Orfil updateAnswer(int id, Orfil orfil, String ans, String desc ) {
+	final String mtd = "Rules" + "updateAnswer | ";
+	String message = mtd + GeneralConstants.mtdIn; 
+	System.out.println(message);
+	HashMap<Integer, Question> questionnaire = orfil.getQuestionnaire();
+	Question question = questionnaire.get(id);
+	Answer answer = question.getAnswer();
+	answer.setAnswer(ans);
+	System.out.println("id="+id+" | ans="+ans);
+	questionnaire.put(id, question);
+	orfil.setQuestionnaire(questionnaire);
+	message = mtd + GeneralConstants.mtdOut;
+	System.out.println(message);
+   	return orfil;
+}

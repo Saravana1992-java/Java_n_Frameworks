@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="GBS Auditing" />
+
+
+<title>Welcome to GBS</title>
+
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" />
+
+<link rel="stylesheet" th:href="@{/assets/css/fontawesome.css}" />
+<link rel="stylesheet"
+	th:href="@{/assets/css/templatemo-finance-business.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/owl.css}" />
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Additional Scripts -->
+<script th:src="@{assets/js/custom.js}"></script>
+<script th:src="@{assets/js/owl.js}"></script>
+<script th:src="@{assets/js/slick.js}"></script>
+<script th:src="@{assets/js/accordions.js}"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#availableServices').on(
+				"change",
+				function() {
+					console.log($('#availableServices option:selected').val());
+					window.location.href = '/'
+							+ $('#availableServices option:selected').val();
+					// your ajax call
+				});
+	});
+</script>
+
+</head>
+
+<body>
+	<div id="preloader" th:fragment="preloader">
+		<label id="curView" th:utext="${curView}"></label>
+		<div class="jumper">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+
+	<div class="sub-header" th:fragment="subHeader">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-xs-12">
+					<ul class="left-info">
+						<li><a href="#"><i class="fa fa-clock-o"></i>Mon-Fri
+								09:00 AM-07:00 PM</a></li>
+						<li><a href="#"><i class="fa fa-phone"></i>+91 97868
+								67932</a></li>
+						<li><a th:href="@{mailto:gbsfilings@gmail.com}">gbsfilings@gmail.com
+						</a></li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<ul class="right-icons">
+						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+						<li><a href="#"><i class="fa fa-behance"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<header class="" th:fragment="header">
+		<nav class="navbar navbar-expand-lg">
+			<div class="container">
+				<a class="navbar-brand" th:href="@{/}"><h2>GBS Auditing</h2></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarResponsive" aria-controls="navbarResponsive"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="navbar-nav ml-auto">
+						<li
+							th:classappend="${curView =='index'} ? 'nav-item active' : 'nav-item'"><a
+							class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span>
+						</a></li>
+						<li
+							th:classappend="${curView=='about'} ? 'nav-item active' : 'nav-item'"><a
+							class="nav-link" th:href="@{about}">About Us</a></li>
+						<li
+							th:classappend="${curView=='services'} ? 'nav-item active' : 'nav-item'">
+							<!-- <a class="nav-link"
+							th:href="@{services}"> -->
+							<div class="nav-link form-group blu-margin" style="opacity: 0.8">
+								<select class="form-control"
+									style="width: 11rem; display: unset; color: #1e1e1e !important"
+									th:field="*{availableServices}" id="availableServices">
+									<option value="">Our Services</option>
+									<option th:each="service : ${availableServices}"
+										th:value="${service.key}" th:text="${service.value}"></option>
+								</select>
+							</div> <!-- </a> -->
+						</li>
+						<li
+							th:classappend="${curView=='contact'} ? 'nav-item active' : 'nav-item'"><a
+							class="nav-link" th:href="@{contact}">Contact Us</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<div class="main-banner header-text" id="top"
+		th:fragment="mainBanner-HeaderText">
+		<div class="Modern-Slider">
+			<div class="item item-1">
+				<div class="img-fill">
+					<div class="text-content">
+						<h6>we are ready to help you</h6>
+						<h4>
+							Financial Analysis<br></br>&amp; Consulting
+						</h4>
+						<p>This finance HTML template is 100% free of charge provided
+							by TemplateMo for everyone. You can download, edit and use this
+							layout for your business website.</p>
+						<a th:href="@{contact}" class="filled-button">contact us</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="item item-2">
+				<div class="img-fill">
+					<div class="text-content">
+						<h6>we are here to support you</h6>
+						<h4>
+							Accounting<br></br>&amp; Management
+						</h4>
+						<p>You are allowed to use this template for your company
+							websites. You are NOT allowed to re-distribute this template ZIP
+							file on any template download website. Please contact TemplateMo
+							for more detail.</p>
+						<a th:href="@{services}" class="filled-button">our services</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="item item-3">
+				<div class="img-fill">
+					<div class="text-content">
+						<h6>we have a solid background</h6>
+						<h4>
+							Market Analysis<br></br>&amp; Statistics
+						</h4>
+						<p>Vivamus ut tellus mi. Nulla nec cursus elit, id vulputate
+							mi. Sed nec cursus augue. Phasellus lacinia ac sapien vitae
+							dapibus. Mauris ut dapibus velit cras interdum nisl ac urna
+							tempor mollis.</p>
+						<a th:href="@{about}" class="filled-button">learn more</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<footer th:fragment="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3 footer-item">
+					<h4>Finance Business</h4>
+					<p>Vivamus tellus mi. Nulla ne cursus elit,vulputate. Sed ne
+						cursus augue hasellus lacinia sapien vitae.</p>
+					<ul class="social-icons">
+						<li><a rel="nofollow" th:href="@{https://fb.com/templatemo}"
+							target="_blank"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+						<li><a href="#"><i class="fa fa-behance"></i></a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 footer-item">
+					<h4>Useful Links</h4>
+					<ul class="menu-list">
+						<li><a href="#">Vivamus ut tellus mi</a></li>
+						<li><a href="#">Nulla nec cursus elit</a></li>
+						<li><a href="#">Vulputate sed nec</a></li>
+						<li><a href="#">Cursus augue hasellus</a></li>
+						<li><a href="#">Lacinia ac sapien</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 footer-item">
+					<h4>Additional Pages</h4>
+					<ul class="menu-list">
+						<li><a href="#">About Us</a></li>
+						<li><a href="#">How We Work</a></li>
+						<li><a href="#">Quick Support</a></li>
+						<li><a href="#">Contact Us</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 footer-item last-item">
+					<h4>Contact Us</h4>
+					<div class="contact-form">
+						<form id="contact footer-contact" action="" method="post">
+							<div class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12">
+									<fieldset>
+										<input name="name" type="text" class="form-control" id="name"
+											placeholder="Full Name" required=""></input>
+									</fieldset>
+								</div>
+								<div class="col-lg-12 col-md-12 col-sm-12">
+									<fieldset>
+										<input name="email" type="text" class="form-control"
+											id="email" pattern="[^ @]*@[^ @]*"
+											placeholder="E-Mail Address" required=""></input>
+									</fieldset>
+								</div>
+								<div class="col-lg-12">
+									<fieldset>
+										<textarea name="message" rows="6" class="form-control"
+											id="message" placeholder="Your Message" required=""></textarea>
+									</fieldset>
+								</div>
+								<div class="col-lg-12">
+									<fieldset>
+										<button type="submit" id="form-submit" class="filled-button">Send
+											Message</button>
+									</fieldset>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<div class="sub-footer" th:fragment="subFooter">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<p>
+						Copyright &copy; 2020 GBS auditing Co., Ltd. - Contact: <a
+							rel="nofollow noopener" th:href="@{mailto:gbsfilings@gmail.com}"
+							target="_blank">GBS auditing Co., Ltd.</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script language="text/Javascript">
+      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+      function clearField(t){                   //declaring the array outside of the
+      if(! cleared[t.id]){                      // function makes it static and global
+          cleared[t.id] = 1;  // you could use true and false, but that's more typing
+          t.value='';         // with more chance of typos
+          t.style.color='#fff';
+          }
+      }
+    </script>
+
+</body>
+</html>

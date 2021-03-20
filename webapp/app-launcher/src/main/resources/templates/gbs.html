@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general_fragments :: head"></head>
+
+<body>
+	<div th:replace="fragments/general_fragments :: preloader"></div>
+
+	<div th:replace="fragments/general_fragments :: subHeader"></div>
+
+	<header th:replace="fragments/general_fragments :: header"> </header>
+	<!-- Actual content goes here -->
+	<footer>
+		<!-- 	<nav class="navbar navbar-expand-lg"> -->
+		<div class="container"
+			style="max-width: fit-content; text-align: center;padding-top:60px;">
+			<h4>Orfil</h4>
+			<div class="contact-form">
+				<form id="orfil-audit-form" method="post"
+					th:action="@{/orfilAudit}" enctype="multipart/form-data">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12">
+							<fieldset>
+								<input type="file" name="file" class="form-control"
+									style="height: 45px; padding: unset;"></input>
+							</fieldset>
+						</div>
+						<div class="col-lg-12">
+							<fieldset>
+								<button type="submit" id="orfil-audit-form-submit" class="filled-button">Submit</button>
+							</fieldset>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- </nav> -->
+	</footer>
+	<footer th:replace="fragments/general_fragments :: footer"> </footer>
+
+	<div th:replace="fragments/general_fragments :: subFooter"></div>
+
+</body>
+</html>

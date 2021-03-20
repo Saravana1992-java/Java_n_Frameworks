@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general_fragments :: head"></head>
+
+<body>
+	<div th:replace="fragments/general_fragments :: preloader"></div>
+
+	<div th:replace="fragments/general_fragments :: subHeader"></div>
+
+	<!-- <header th:replace="fragments/general_fragments :: header"> </header> -->
+
+	<!-- <div th:replace="fragments/general_fragments :: mainBanner-HeaderText">
+	</div> -->
+
+	<!-- Actual content goes here -->
+
+	<div class="container"
+		style="max-width: fit-content; text-align: start; padding: 60px;">
+		<div class="row">
+			<h1>
+				<a class="nav-link" th:href="@{/}"> Go to Home <span
+					class="sr-only">(current)</span>
+				</a>
+			</h1>
+		</div>
+		<div class="row">It apperrs Either something went wrong or the
+			page doesn't exist anymore.....</div>
+		<div class="row rowDesign">
+			<div class="col-md-4 ml-auto">
+				<span class="legend">Date</span>
+			</div>
+			<div class="col-md-8">
+				<span th:text="${timestamp}"></span>
+			</div>
+		</div>
+		<div class="row rowDesign">
+			<div class="col-md-4 ml-auto">
+				<span class="legend">Path</span>
+			</div>
+			<div class="col-md-8">
+				<span th:text="${path}"></span>
+			</div>
+		</div>
+		<div class="row rowDesign">
+			<div class="col-md-4 ml-auto">
+				<span class="legend">Error</span>
+			</div>
+			<div class="col-md-8">
+				<span th:text="${error}"></span>
+			</div>
+		</div>
+		<div class="row rowDesign">
+			<div class="col-md-4 ml-auto">
+				<span class="legend">Status</span>
+			</div>
+			<div class="col-md-8">
+				<span th:text="${status}"></span>
+			</div>
+		</div>
+		<div class="row rowDesign">
+			<div class="col-md-4 ml-auto">
+				<span class="legend">Message</span>
+			</div>
+			<div class="col-md-8">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+		<div class="row rowDesign">
+			<div class="col-md-4 ml-auto">
+				<span class="legend">Exception</span>
+			</div>
+			<div class="col-md-8">
+				<span th:text="${exception}"></span>
+			</div>
+		</div>
+		<div class="row rowDesign">
+			<div class="col-md-4 ml-auto">
+				<span class="legend">Trace</span>
+			</div>
+			<div class="col-md-8">
+				<span th:text="${trace}"></span>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="fragments/general_fragments :: footer"> </footer>
+
+	<div th:replace="fragments/general_fragments :: subFooter"></div>
+</body>
+</html>

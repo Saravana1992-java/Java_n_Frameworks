@@ -1,0 +1,17 @@
+Income Noincome
+Loan Amt
+Tenure 
+Emi
+Income Level
+Crif Score
+House Type
+Actual Ltv
+Category Vehicle
+Approval Type
+Fe State
+Id
+Appno
+Fi Dis From Branch
+Guarantor Avail
+Dob
+App Credit Approver Comments
